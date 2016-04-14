@@ -1,6 +1,7 @@
 package mvc;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
 import models.Barrel;
 import models.DonkeyKong;
@@ -12,7 +13,7 @@ public class Controller {
 	private DonkeyKongViewer v;
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 300 / frameRate;//  milliseconds per frame
-	private Barrel[] barrel = new Barrel[10];
+	private Barrel[] barrels = new Barrel[10];
 	private Princess princess;
 	private Hammer hammer;
 	private Mario mario;
@@ -35,12 +36,29 @@ public class Controller {
 		
 	}
 	
+	public void paintModels(Graphics g) {
+		//Probably need to move something
+		playGame(g);
+		
+		// probably need to throw into a for each loop
+		for (Barrel barrel : barrels) {
+			barrel.draw(g);
+		}
+		
+		// Single objects
+		princess.draw(g);
+		hammer.draw(g);
+		mario.draw(g);
+		dkong.draw(g);
+		
+	}
+	
 	/**
 	 * Check for number of barrels on screen - need to have at least 4 (send more if less than four)
 	 * If you touch a barrel mario dies
 	 * If you touch a hammer mario changes state to hasHammer
 	 */
-	private void playGame() {
+	private void playGame(Graphics g) {
 		
 	}
 	
@@ -51,5 +69,20 @@ public class Controller {
 	private void moveActivePlayer(Mario mario) {
 		
 	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void rollFrames() {
+		try {
+			Thread.sleep(timeDelay);
+			v.repaint();
+		} catch (InterruptedException e) {
+			System.out.println(e.toString());
+		}
+		
+	}
+	
 
 }
