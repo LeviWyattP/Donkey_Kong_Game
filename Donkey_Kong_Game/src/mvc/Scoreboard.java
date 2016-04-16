@@ -19,7 +19,7 @@ public class Scoreboard extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		currentImage.paintIcon(this, g, x_loc, y_loc);
+		//currentImage.paintIcon(this, g, x_loc, y_loc);
 		g.setColor(Color.white);
 		g.drawString(Integer.toString(getScore()), 5, 30);
 	}

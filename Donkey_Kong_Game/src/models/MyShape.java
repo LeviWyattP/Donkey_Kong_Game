@@ -1,9 +1,12 @@
 package models;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+
+import javax.swing.ImageIcon;
 
 public class MyShape {
 	protected int diameter, width, height, x, y;
@@ -15,9 +18,15 @@ public class MyShape {
 	protected final int UP = -1, DOWN = 1;
 	protected boolean debug = true;
 	protected Rectangle r;
+	protected Component c;
+	protected String currentImageLocation;
+	protected ImageIcon currentImage;
 	
-	public MyShape(int height, int width, int x, int y) {
+	public MyShape(Component c, int height, int width, int x, int y) {
 		this.r = new Rectangle(height, width, x, y);
+		setX(x);
+		setY(y);
+		
 		
 	}
 	
@@ -25,10 +34,26 @@ public class MyShape {
 	*/
 	public void draw(Graphics g) {
 		if (visible) {
-
+			currentImage.paintIcon(this.c, g, x, y);
 		}
 	}
-
+	/**
+	 * Don't know if we need this
+	 * @return
+	 */
+	public ImageIcon getCurrentImage() {
+			return this.currentImage;
+	}
+	
+	/**
+	 * Change image
+	 * @param imageLocation
+	 */
+	public void setCurrentImage(String imageLocation) {
+	
+		this.currentImageLocation  = imageLocation;
+		this.currentImage = new ImageIcon(currentImageLocation);
+	}
 
 	/** X mutator.
 	*/
@@ -67,7 +92,6 @@ public class MyShape {
 	}
 
 	public boolean getVisible() {
-
 		return visible;
 	}
 

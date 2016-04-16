@@ -1,21 +1,24 @@
 package models;
 
+import java.awt.Component;
 import java.awt.Graphics;
 
 public class Mario extends MyShape{
 	public boolean hasHammer;
 	public int x,y;
 	public String action;
+	private Component component;
+	public String mario_png = "mario_left.png";
 	
 	
-	public Mario(int height, int width, int x, int y) {
-		super(height, width, x, y);
-		this.hasHammer = false;
-	}
-	
-	public void draw(Graphics g) {
+	public Mario(Component c, int height, int width, int x, int y) {
+		super(c, height, width, x, y);
 		
+		this.component = c;
+		this.hasHammer = false;
+		setCurrentImage(mario_png);
 	}
+
 
 	public boolean hasHammer() {
 		// TODO Auto-generated method stub
