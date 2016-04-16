@@ -69,7 +69,7 @@ public class Controller {
 	 * If you touch a hammer mario changes state to hasHammer
 	 */
 	private void playGame(Graphics g) {
-		if (lives.equal(0)){
+		if (live == 0){
 			g.drawString("YOU HAVE LOST - 'R' to play again", 220, 280);
 		}
 		for (int i = 0; i < barrels.length; i++) {
@@ -87,11 +87,14 @@ public class Controller {
 				else { 
 					mario.setAction("dead");
 					lives = lives -1;
-					
-					
 				}
-
 			}
+		}
+		if (hammer.getVisible() && (mario.touches(hammer)){
+			mario.setHammer(true);
+			mario.setAction("hammer");
+			score += 100;
+			hammer.setVisible(false);
 		}
 	}
 	private void moveBarrels() {
