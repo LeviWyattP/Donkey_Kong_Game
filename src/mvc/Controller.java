@@ -35,6 +35,7 @@ public class Controller {
 		princes = new Princess();
 		ladders_climbed = 0;
 		score = 0;
+		lives = 3;
 		for (int i = 0; i < 12; i ++){
 			barrels[i] = new Barrel(size);
 		}
@@ -68,9 +69,31 @@ public class Controller {
 	 * If you touch a hammer mario changes state to hasHammer
 	 */
 	private void playGame(Graphics g) {
-		
+		if (lives.equal(0)){
+			g.drawString("YOU HAVE LOST - 'R' to play again", 220, 280);
+		}
+		for (int i = 0; i < barrels.length; i++) {
+			//takes care of barrels and lives 
+			if (mario.hasHammer())
+				barrels[i].breakState(true);
+			else {
+				barrels[i].breakState(false;)
+			}
+			if (mario.touches(barrels[i]) && barrels[i].getVisible()) {
+				if (mario.hasHammer()) {
+					barrels[i].setVisible(false);
+					score += 500;
+				} 
+				else { 
+					mario.setAction("dead");
+					lives = lives -1;
+					
+					
+				}
+
+			}
+		}
 	}
-	
 	private void moveBarrels() {
 		
 	}
