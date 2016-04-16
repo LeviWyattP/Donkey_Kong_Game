@@ -13,9 +13,10 @@ public class Controller {
 	private DonkeyKongViewer v;
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 300 / frameRate;//  milliseconds per frame
-	private Barrel[] barrels = new Barrel[10];
+	private Barrel[] barrels = new Barrel[12];
 	private Princess princess;
 	private Hammer hammer;
+	private int barreldelay = 10000; //timer inbetween barrel throws
 	private Mario mario;
 	private DonkeyKong dkong;
 	private final int SCREENWIDTH = 600, SCREENHEIGHT = 600;
@@ -29,7 +30,15 @@ public class Controller {
 	private int ladders_climbed;
 		
 	public Controller(DonkeyKongViewer v) {
-		
+		this.v = v;
+		mario = new Mario(size,);
+		princes = new Princess();
+		ladders_climbed = 0;
+		score = 0;
+		for (int i = 0; i < 12; i ++){
+			barrels[i] = new Barrel(size);
+		}
+				
 	}
 	
 	void playAgain() {
