@@ -64,11 +64,11 @@ public class Controller {
 	private int hammer_initial_y = 100;	
 	
 	//Level Params
-	private Level level;
-	private int level_height = 10;
-	private int level_width = 10;
+	private Level[] levels = new Level[50];
+	private int level_height = 20;
+	private int level_width = 20;
 	private int level_initial_x = 100;
-	private int level_initial_y = 150;	
+	private int level_initial_y = 250;	
 	
 	public Controller(DonkeyKongViewer v) {
 		this.v = v;
@@ -76,7 +76,7 @@ public class Controller {
 		princess = new Princess(v, princess_height, princess_width, princess_initial_x, princess_initial_y);
 		hammer = new Hammer(v, hammer_height, hammer_width, hammer_initial_x, hammer_initial_y);
 		dkong = new DonkeyKong(v, dkong_height, dkong_width, dkong_initial_x, dkong_initial_y);
-		level = new Level(v, level_height, level_width, level_initial_x, level_initial_y);
+//		level = new Level(v, level_height, level_width, level_initial_x, level_initial_y);
 		ladders_climbed = 0;
 		score = 0;
 		setLives(3);
@@ -84,7 +84,11 @@ public class Controller {
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
 			barrels[i].setDirection("right");
 		}
-
+		int count = 20;
+		for (int i = 0; i < 50; i ++){
+			levels[i] = new Level(v, level_height, level_width, level_initial_x+count, level_initial_y - i);
+			count = count + 20;
+		}
 	}
 	//added getter and setter for lives
 	public int getLives() {
@@ -107,9 +111,12 @@ public class Controller {
 		for (Barrel barrel : barrels) {
 			barrel.draw(g);
 		}
+		for (Level level : levels){
+			level.draw(g);
+		}
 		
 		// Single objects
-		level.draw(g);
+
 		princess.draw(g);
 		hammer.draw(g);
 		mario.draw(g);
