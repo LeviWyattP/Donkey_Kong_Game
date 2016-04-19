@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import models.Barrel;
 import models.DonkeyKong;
 import models.Hammer;
+import models.Level;
 import models.Mario;
 import models.Princess;
 
@@ -15,7 +16,7 @@ public class Controller {
 	private DonkeyKongViewer v;
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 10000 / frameRate;//  milliseconds per frame
-	private int barreldelay = 10000; //timer inbetween barrel throws
+	private int barreldelay = 4000; //timer inbetween barrel throws
 	private final int SCREENWIDTH = 600, SCREENHEIGHT = 600;
 	private int cell = SCREENWIDTH / 12; // 12 columns
 	private int speed = 1;
@@ -40,12 +41,12 @@ public class Controller {
 	private int mario_width = 10;
 	private int mario_initial_x = 300;
 	private int mario_initial_y = 300;
-
+	
 	//Princess Params
 	private Princess princess;
 	private int princess_height = 10;
 	private int princess_width = 10;
-	private int princess_initial_x = 150;
+	private int princess_initial_x = 140;
 	private int princess_initial_y = 100;	
 	
 	//Barrel Params
@@ -60,7 +61,14 @@ public class Controller {
 	private int hammer_height = 10;
 	private int hammer_width = 10;
 	private int hammer_initial_x = 150;
-	private int hammer_initial_y = 150;	
+	private int hammer_initial_y = 100;	
+	
+	//Level Params
+	private Level level;
+	private int level_height = 10;
+	private int level_width = 10;
+	private int level_initial_x = 100;
+	private int level_initial_y = 150;	
 	
 	public Controller(DonkeyKongViewer v) {
 		this.v = v;
@@ -68,15 +76,24 @@ public class Controller {
 		princess = new Princess(v, princess_height, princess_width, princess_initial_x, princess_initial_y);
 		hammer = new Hammer(v, hammer_height, hammer_width, hammer_initial_x, hammer_initial_y);
 		dkong = new DonkeyKong(v, dkong_height, dkong_width, dkong_initial_x, dkong_initial_y);
+		level = new Level(v, level_height, level_width, level_initial_x, level_initial_y);
 		ladders_climbed = 0;
 		score = 0;
-		lives = 3;
+		setLives(3);
 		for (int i = 0; i < 12; i ++){
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
 		}
 
 	}
-	
+	//added getter and setter for lives
+	public int getLives() {
+		return lives;
+	}
+
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+
 	void playAgain() {
 		
 	}
@@ -91,11 +108,13 @@ public class Controller {
 		}
 		
 		// Single objects
+		level.draw(g);
 		princess.draw(g);
 		hammer.draw(g);
 		mario.draw(g);
 		dkong.draw(g);
 		hammer.draw(g);
+		
 		
 	}
 	
@@ -105,7 +124,7 @@ public class Controller {
 	 * If you touch a hammer mario changes state to hasHammer
 	 */
 	private void playGame(Graphics g) {
-		if (lives == 0){
+		if (getLives() == 0){
 			g.drawString("YOU HAVE LOST - 'R' to play again", 220, 280);
 		}
 		for (int i = 0; i < barrels.length; i++) {
@@ -123,7 +142,7 @@ public class Controller {
 				} 
 				else { 
 					mario.setAction("dead");
-					lives = lives -1;
+					setLives(getLives() -1);
 				}
 			}
 		}
@@ -143,10 +162,14 @@ public class Controller {
 		
 	}
 	
-	private void moveActivePlayer(Mario mario) {
-		
+	public void moveActivePlayer(String action) {
+		if(mario.hasHammer()){
+			mario.setAction(action + "hammer");
+		}
+		else{
+			mario.setAction(action);
+		}
 	}
-
 	public int getScore() {
 		return score;
 	}

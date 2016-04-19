@@ -1,6 +1,7 @@
 package models;
 
 import java.awt.Component;
+
 import java.awt.Graphics;
 
 public class Mario extends MyShape{
@@ -8,7 +9,8 @@ public class Mario extends MyShape{
 	public int x,y;
 	public String action;
 	private Component component;
-	public String mario_png = "mario_left.png";
+	public String marioleft = "mario_left.png";
+	public String marioright = "mario_right.png";
 	
 	
 	public Mario(Component c, int height, int width, int x, int y) {
@@ -16,7 +18,7 @@ public class Mario extends MyShape{
 		
 		this.component = c;
 		this.hasHammer = false;
-		setCurrentImage(mario_png);
+		setCurrentImage(marioright);
 	}
 
 
@@ -33,6 +35,14 @@ public class Mario extends MyShape{
 	public void setAction(String string) {
 		// TODO Auto-generated method stub
 		this.action = string;
+		if (action.equals("hammer")){
+			setHammer(true);
+			
+		}
+//		else if (action.equals("moveLeft")){
+//			
+//			
+//		}
 	}
 
 	public String getAction() {
