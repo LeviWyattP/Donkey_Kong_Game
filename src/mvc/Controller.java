@@ -183,6 +183,22 @@ public class Controller {
 		}
 		
 	}
+	public void setMoveLeft(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setMoveRight(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setMoveUp(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setMoveDown(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
