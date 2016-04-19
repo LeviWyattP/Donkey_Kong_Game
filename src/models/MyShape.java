@@ -86,6 +86,17 @@ public class MyShape {
 		else
 			direction = LEFT;
 	}
+	
+	public void setDirection(String dir) {
+		if (dir.equals("left")) {
+			direction = LEFT;
+		}
+
+		if (dir.equals("right")) {
+			direction = RIGHT;
+		}
+		
+	}
 
 	public void setUpDown(int ud) {
 		if (ud > 0)

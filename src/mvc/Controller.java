@@ -163,19 +163,47 @@ public class Controller {
 			score += 100;
 			hammer.setVisible(false);
 		}
-	}
-	
-	private void moveBarrels() {
+		
+		moveBarrels();
 		
 	}
 	
+	private void moveBarrels() {
+		for (Barrel barrel : barrels) {
+			//
+		}
+	}
+	
 	public void moveActivePlayer(String action) {
-		if(mario.hasHammer()){
-			mario.setAction(action + "hammer");
+		// First we need to make Mario invisible until we want him redrawn
+		mario.setVisible(false);
+		mario.setAction(action);
+		
+		if (action.equals("left")) {
+			mario.setX(mario.getX() - 1);
 		}
-		else{
-			mario.setAction(action);
+		
+		if (action.equals("right")) {
+			mario.setX(mario.getX() + 1);
 		}
+
+		if (action.equals("up")) {
+			mario.setY(mario.getY() + 1);
+		}
+
+		if (action.equals("down")) {
+			
+			mario.setY(mario.getY() - 1);
+			// now test if mario is on floor - If on floor go back up;
+		}
+		
+		
+		// Check if mario is on floor
+
+
+		mario.setDirection(action);
+		mario.setVisible(true);
+
 	}
 	public int getScore() {
 		return score;
