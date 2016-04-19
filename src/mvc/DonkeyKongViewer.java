@@ -4,7 +4,6 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import mvc.Viewer.ViewPanel;
 
 public class DonkeyKongViewer extends JFrame {
 	private static final long serialVersionUID = 3891163111924324774L;
@@ -31,7 +30,7 @@ public class DonkeyKongViewer extends JFrame {
 	}
 	
 	private class ViewScoreBoard extends JPanel {
-	
+		private static final long serialVersionUID = 8651888917167259520L;
 		public ViewScoreBoard() {
 			setPreferredSize(new Dimension(600, 600));
 			setBackground(Color.black);
