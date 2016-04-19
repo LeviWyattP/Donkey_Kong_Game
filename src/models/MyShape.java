@@ -3,6 +3,7 @@ package models;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 
@@ -26,6 +27,8 @@ public class MyShape {
 		this.r = new Rectangle(height, width, x, y);
 		setX(x);
 		setY(y);
+		this.width = width;
+		this.height = height;
 		
 		
 	}
@@ -45,6 +48,7 @@ public class MyShape {
 			return this.currentImage;
 	}
 	
+
 	/**
 	 * Change image
 	 * @param imageLocation
@@ -53,8 +57,17 @@ public class MyShape {
 	
 		this.currentImageLocation  = imageLocation;
 		this.currentImage = new ImageIcon(currentImageLocation);
+		resizeCurrentImage(this.currentImage, this.width,this.height);
 	}
 
+	public void resizeCurrentImage(ImageIcon currentImage, int width, int heigth) {
+
+		Image temp_image = currentImage.getImage();
+		temp_image = temp_image.getScaledInstance(width, heigth, java.awt.Image.SCALE_SMOOTH);		
+		this.currentImage = new ImageIcon(temp_image);
+		
+	}
+	
 	/** X mutator.
 	*/
 	public void setX(int upperX) {
