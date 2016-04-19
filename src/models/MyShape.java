@@ -17,6 +17,7 @@ public class MyShape {
 	protected final int RIGHT = 1, LEFT = -1;
 	protected int upDown;
 	protected final int UP = -1, DOWN = 1;
+	protected boolean isFalling = false;
 	protected boolean debug = true;
 	protected Rectangle r;
 	protected Component c;
@@ -144,8 +145,22 @@ public class MyShape {
 
 	public void setVisible(boolean visibility) {
 		visible = visibility;
-	}	
+	}
 	
+	/**
+	 * isFalling setter
+	 * @param isFalling
+	 */
+	public void set_isFalling(boolean isFalling) {
+		this.isFalling = isFalling;
+	}
+	/**
+	 * isFalling accessor
+	 * @return isFalling
+	 */
+	public boolean get_isFalling() {
+		return isFalling;
+	}
 	/**
 	 * The touches method determines if this object touches or overlaps the
 	 * input object c by determining if the midpoint of input shape is less than

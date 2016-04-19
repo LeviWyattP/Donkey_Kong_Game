@@ -82,6 +82,7 @@ public class Controller {
 		setLives(3);
 		for (int i = 0; i < 12; i ++){
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
+			barrels[i].setDirection("right");
 		}
 
 	}
@@ -163,7 +164,32 @@ public class Controller {
 	
 	private void moveBarrels() {
 		for (Barrel barrel : barrels) {
-			//
+			barrel.setVisible(false);
+			
+			// if barrel is moving left
+			System.out.println(barrel.getDirection());
+			if (barrel.getDirection() == -1) {
+				barrel.setX(barrel.getX() - 1);
+			}
+			if (barrel.getDirection() == 1) {
+				barrel.setX(barrel.getX() + 1);
+				
+			}
+			
+			// Try to falll
+			barrel.setY(barrel.getY() + 1);
+			// If barrel is touching ground for the first time - switch direction
+			// Should be - If barrel is falling and touches ground - Change direction
+			if (barrel.get_isFalling()) {
+				
+				barrel.changeDirection();
+				barrel.set_isFalling(false);
+				
+			}
+			
+			barrel.setVisible(true);
+			
+			
 		}
 	}
 	
@@ -181,12 +207,12 @@ public class Controller {
 		}
 
 		if (action.equals("up")) {
-			mario.setY(mario.getY() + 1);
+			mario.setY(mario.getY() - 1);
 		}
 
 		if (action.equals("down")) {
 			
-			mario.setY(mario.getY() - 1);
+			mario.setY(mario.getY() + 1);
 			// now test if mario is on floor - If on floor go back up;
 		}
 		
