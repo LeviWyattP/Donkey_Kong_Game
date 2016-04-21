@@ -85,22 +85,8 @@ public class Controller {
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
 			barrels[i].setDirection("right");
 		}
-		int count = 0;
-		
-//		for (int s = 0; s < 7; s ++){
-			int counter = 0;
-			while (counter < SCREENWIDTH/20){
-				levels.add(new Level(v, level_height, level_width, level_initial_x+count, level_initial_y - counter));
-				counter ++;
-				count += 20;
-//				if (s % 2 == 0){
-//					count = count + 20;
-//				}
-//				else{
-//					count = count - 20;
-//				}
-			}
-//		}
+
+		}
 	}
 	//added getter and setter for lives
 	public int getLives() {
