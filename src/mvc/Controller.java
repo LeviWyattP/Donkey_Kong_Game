@@ -11,6 +11,7 @@ import models.DonkeyKong;
 import models.Hammer;
 import models.Level;
 import models.Mario;
+import models.Platform;
 import models.Princess;
 
 public class Controller {
@@ -18,7 +19,7 @@ public class Controller {
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 10000 / frameRate;//  milliseconds per frame
 	private int barreldelay = 4000; //timer inbetween barrel throws
-	private final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
+	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
 	private int cell = SCREENWIDTH / 12; // 12 columns
 	private int speed = 1;
 	private int x, y;// direction = -1;
@@ -65,19 +66,26 @@ public class Controller {
 	private int hammer_initial_y = 100;	
 	
 	//Level Params
-	ArrayList<Level> levels = new ArrayList<Level>();
-//	private Level[] levels = new Level[(SCREENWIDTH/20)*7];
-	private int level_height = 20;
-	private int level_width = 40;
+	private Level level;
+	private int level_height = SCREENHEIGHT;
+	private int level_width = SCREENWIDTH;
 	private int level_initial_x = 0;
 	private int level_initial_y = 580;	
 	
+	
+	//Platform params
+	private ArrayList<Platform> platforms = new ArrayList<Platform>();
+	private int platform_height = 30;
+	private int platform_width = SCREENWIDTH/15;
+	private int platform_initial_x = 0;
+	private int platform_initial_y = SCREENHEIGHT-platform_height;	
 	public Controller(DonkeyKongViewer v) {
 		this.v = v;
 		mario = new Mario(v, mario_height, mario_width, mario_initial_x, mario_initial_y);
 		princess = new Princess(v, princess_height, princess_width, princess_initial_x, princess_initial_y);
 		hammer = new Hammer(v, hammer_height, hammer_width, hammer_initial_x, hammer_initial_y);
 		dkong = new DonkeyKong(v, dkong_height, dkong_width, dkong_initial_x, dkong_initial_y);
+		level = new Level(v,level_height,level_width,level_initial_x,level_initial_y);
 		ladders_climbed = 0;
 		score = 0;
 		setLives(3);
@@ -85,9 +93,20 @@ public class Controller {
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
 			barrels[i].setDirection("right");
 		}
+		platformDrawer(v);
 
 	}
 	
+	public void platformDrawer(DonkeyKongViewer v){
+		for (int i = 0; i < SCREENWIDTH/2; i = i + platform_width){
+			platforms.add(new Platform(v,platform_height,platform_width,platform_initial_x+i,platform_initial_y));
+		}
+		int counter = 0;
+		for (int i = SCREENWIDTH/2; i < SCREENWIDTH-platform_width*2; i = i + platform_width){
+			platforms.add(new Platform(v,platform_height,platform_width,platform_initial_x+i,platform_initial_y-counter));
+			counter += 2;
+		}
+	}
 	//added getter and setter for lives
 	public int getLives() {
 		return lives;
@@ -109,8 +128,8 @@ public class Controller {
 		for (Barrel barrel : barrels) {
 			barrel.draw(g);
 		}
-		for (Level level : levels){
-			level.draw(g);
+		for (Platform platform : platforms){
+			platform.draw(g);
 		}
 		
 		// Single objects

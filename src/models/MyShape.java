@@ -29,9 +29,8 @@ public class MyShape {
 		setX(x);
 		setY(y);
 		this.width = width;
-		this.height = height;
-		
-		
+		this.height = height;	
+
 	}
 	
 	/** Draws this shape in the specified graphics context.

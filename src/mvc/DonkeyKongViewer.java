@@ -32,7 +32,7 @@ public class DonkeyKongViewer extends JFrame {
 	private class ViewScoreBoard extends JPanel {
 		private static final long serialVersionUID = 8651888917167259520L;
 		public ViewScoreBoard() {
-			setPreferredSize(new Dimension(600, 600));
+			setPreferredSize(new Dimension(controller.SCREENWIDTH, controller.SCREENHEIGHT));
 			setBackground(Color.black);
 			addKeyListener(new Listener(controller, score));
 			setFocusable(true);
