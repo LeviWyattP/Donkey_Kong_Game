@@ -86,8 +86,8 @@ public class Controller {
 			barrels[i].setDirection("right");
 		}
 
-		}
 	}
+	
 	//added getter and setter for lives
 	public int getLives() {
 		return lives;
