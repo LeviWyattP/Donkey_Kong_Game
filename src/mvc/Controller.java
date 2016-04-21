@@ -141,22 +141,24 @@ public class Controller {
 			else {
 				barrels[i].breakState(false);
 			}
-			if (mario.touches(barrels[i]) && barrels[i].getVisible()) {
+			if (mario.isInsideHitbox(barrels[i].getRectangle()) && barrels[i].getVisible()) {
 				if (mario.hasHammer()) {
 					barrels[i].setVisible(false);
 					score += 500;
 				} 
 				else { 
 					mario.setAction("dead");
-					setLives(getLives() -1);
+					setLives(getLives() - 1);
 				}
+
 			}
 		}
 		
 		// Check if Mario has hammer 
 		// maybe throw in method and run method??
-		
+		//System.out.println(mario.hasHammer());
 		if (hammer.getVisible() && mario.isInsideHitbox(hammer.getRectangle()))  {
+			System.out.println(mario.hasHammer());
 			mario.setHammer(true);
 			mario.setAction("hammer");
 			score += 100;
@@ -169,10 +171,9 @@ public class Controller {
 	
 	private void moveBarrels() {
 		for (Barrel barrel : barrels) {
-			barrel.setVisible(false);
+
 			
 			// if barrel is moving left
-			System.out.println(barrel.getDirection());
 			if (barrel.getDirection() == -1) {
 				barrel.setX(barrel.getX() - 1);
 			}
@@ -192,7 +193,7 @@ public class Controller {
 				
 			}
 			
-			barrel.setVisible(true);
+
 			
 			
 		}

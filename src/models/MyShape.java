@@ -25,11 +25,13 @@ public class MyShape {
 	protected ImageIcon currentImage;
 	
 	public MyShape(Component c, int height, int width, int x, int y) {
-		this.r = new Rectangle(height, width, x, y);
+		this.r = new Rectangle(x, y, height, width);
 		setX(x);
 		setY(y);
 		this.width = width;
 		this.height = height;
+		System.out.println(height + " " + width + " "  + x + " " + y);
+		System.out.println(r.height + " " +  r.width + " " + r.x + " " + r.y );
 		
 		
 	}
@@ -73,12 +75,14 @@ public class MyShape {
 	*/
 	public void setX(int upperX) {
 		x = upperX;
+		this.r.setLocation(x,y);	
 	}
 
 	/** Y mutator.
 	*/
 	public void setY(int upperY) {
 		y = upperY;
+		this.r.setLocation(x,y);	
 	}
 
 	public void setDirection(int dir) {
