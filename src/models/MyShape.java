@@ -30,8 +30,6 @@ public class MyShape {
 		setY(y);
 		this.width = width;
 		this.height = height;
-		System.out.println(height + " " + width + " "  + x + " " + y);
-		System.out.println(r.height + " " +  r.width + " " + r.x + " " + r.y );
 		
 		
 	}

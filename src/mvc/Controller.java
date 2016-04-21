@@ -147,7 +147,7 @@ public class Controller {
 					score += 500;
 				} 
 				else { 
-					mario.setAction("dead");
+					mario.setisDead(true);
 					setLives(getLives() - 1);
 				}
 
@@ -160,9 +160,9 @@ public class Controller {
 		if (hammer.getVisible() && mario.isInsideHitbox(hammer.getRectangle()))  {
 			System.out.println(mario.hasHammer());
 			mario.setHammer(true);
-			mario.setAction("hammer");
 			score += 100;
 			hammer.setVisible(false);
+			
 		}
 		
 		moveBarrels();
@@ -202,7 +202,6 @@ public class Controller {
 	public void moveActivePlayer(String action) {
 		// First we need to make Mario invisible until we want him redrawn
 		mario.setVisible(false);
-		mario.setAction(action);
 		
 		if (action.equals("left")) {
 			mario.setX(mario.getX() - 1);
