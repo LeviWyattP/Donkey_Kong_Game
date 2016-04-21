@@ -9,7 +9,7 @@ import javax.swing.*;
  * @author Levi
  *
  */
-public class Barrel extends MyShape  {
+public class Barrel extends MyShape {
 	public boolean next_ladder;
 	public boolean am_i_dead;
 	public String barrel_front = "Barrel_front.png";

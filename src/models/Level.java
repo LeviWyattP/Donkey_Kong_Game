@@ -4,7 +4,7 @@ import java.awt.Component;
 
 import java.awt.Graphics;
 
-public class Level extends MyShape{
+public class Level extends MyShape {
 	private Component component;
 	public String platform = "Platform.png";
 

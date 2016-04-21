@@ -3,7 +3,7 @@ package models;
 import java.awt.Component;
 import java.awt.Graphics;
 
-public class DonkeyKong extends MyShape{
+public class DonkeyKong extends MyShape {
 	public int currentState;
 	public String Donkey_Kong_Front = "DK_front.png";
 	private Component component;

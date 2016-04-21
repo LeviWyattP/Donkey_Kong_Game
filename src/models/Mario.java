@@ -4,7 +4,7 @@ import java.awt.Component;
 
 import java.awt.Graphics;
 
-public class Mario extends MyShape{
+public class Mario extends MyShape {
 	public boolean hasHammer;
 	public int x,y;
 	public String action;
