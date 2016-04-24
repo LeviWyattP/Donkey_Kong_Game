@@ -18,11 +18,22 @@ public class Listener implements KeyListener {
 	public void keyPressed(KeyEvent event) {
 		switch (event.getKeyCode()) {
 		case KeyEvent.VK_R:
-			if (c.getLives() == 0)
+			if (c.getLives() == 0){
+				c.playAgain();
+			}
 				break;
 		case KeyEvent.VK_C:
 			c.playAgain();
 			break;
+		//pauses the game, but fails to unpause game
+//		case KeyEvent.VK_P:
+//			if (c.getplay()){//if game is not paused, pause
+//				c.setplay(false);
+//			}
+//			else{//if game paused, unpause
+//				c.setplay(true);
+//			}
+//			break;
 		case KeyEvent.VK_LEFT:
 			c.moveActivePlayer("left");
 			break;
