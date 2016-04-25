@@ -22,7 +22,7 @@ public class Controller {
 	private DonkeyKongViewer v;
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 3000 / frameRate;//  milliseconds per frame
-	private int hammertimer = 70000; // timer for hammer
+	private int hammertimer = 100000; // timer for hammer
 	private int barreldelay = 10000; //timer inbetween barrel throws
 	private int time;
 	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
@@ -383,6 +383,7 @@ public class Controller {
 	 * Moves Player based on pressed keys
 	 */
 	public void autoMoveActivePlayer() {
+		mario.autoChangeFace();
 		int left_right_speed;
 		if (mario.isJumping == true) {
 			 left_right_speed = 10; 		
@@ -425,6 +426,7 @@ public class Controller {
 			
 			// now test if mario is on floor - If on floor go back up;
 		}
+
 	}
 	
 	/**
@@ -444,8 +446,6 @@ public class Controller {
 		else {
 			left_right_speed = 3;
 		}
-		
-		//System.out.println(mario.get_isFalling());
 
 		if (action.equals("left")) {
 			mario.setX((mario.getX() - left_right_speed)*speed);
@@ -512,7 +512,6 @@ public class Controller {
 			mario.setY((mario.getY() + 10)*speed);
 				}				
 			}
-		
 		autoMoveActivePlayer();
 
 	}
@@ -535,7 +534,7 @@ public class Controller {
 			hammertimer -= 1000;
 			}
 			this.time = this.time + timeDelay;
-			if (this.time > this.barreldelay) {
+			if (this.time >= this.barreldelay) {
 				
 				//spawn barrel
 				this.barrels[barrel_iter].setVisible(true);

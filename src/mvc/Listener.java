@@ -52,7 +52,7 @@ public class Listener implements KeyListener {
 			c.moveActivePlayer("down");
 			break;
 		default:
-			c.moveActivePlayer("none");
+			//c.moveActivePlayer("none");
 			break;
 			
 		}

@@ -25,6 +25,9 @@ public class Mario extends MyShape {
 	public String climbright = "mario_climb_right.png";
 	public String jumpright = "mario_jump_right.png";
 	public String jumpleft = "mario_jump_left.png";
+	public String mario_hammer_upleft = "Mario_Hammer_upleft.png";
+	public String mario_hammer_upright = "Mario_Hammer_upright.png";
+	
 	private boolean isDead = false;
 	
 	
@@ -119,4 +122,29 @@ public class Mario extends MyShape {
 			}
 		}
 	}
+	
+	public void autoChangeFace() {
+		if (hasHammer()) {
+
+			// Deal with hammer facing right
+			if (currentImageLocation.equals(hammer_right)) {
+				setCurrentImage(mario_hammer_upright);
+
+			}
+			else if (currentImageLocation.equals(mario_hammer_upright)) {
+				setCurrentImage(hammer_right);
+			}
+			else if (currentImageLocation.equals(hammer_left)) {
+				setCurrentImage(mario_hammer_upleft);
+			}
+			else if (currentImageLocation.equals(mario_hammer_upleft)) {
+				setCurrentImage(hammer_left);
+			}
+	
+			
+			
+		}
+		
+	}
+		
 }
