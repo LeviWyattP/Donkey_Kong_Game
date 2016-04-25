@@ -27,7 +27,7 @@ public class Controller {
 	private int time;
 	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
 	private int cell = SCREENWIDTH / 12; // 12 columns
-	private int speed = 1;//anything more than 1 makes game explode
+	private int speed = 2;//anything more than 1 makes game explode
 	private int x, y;// direction = -1;
 	private int size = 30; // character size
 	private boolean moveLeft, moveRight, moveUp, moveDown;
@@ -61,7 +61,7 @@ public class Controller {
 	private Princess princess;
 	private int princess_height = mario_height;
 	private int princess_width = mario_width;
-	private int princess_initial_x = 300;
+	private int princess_initial_x = 300+platform_width;
 	private int princess_initial_y = 100;	
 	
 	//Barrel Params
@@ -132,8 +132,9 @@ public class Controller {
 						for (Platform plates:platforms.get(i-1)){
 							int diff = Math.abs(plates.getX()-platforms.get(i).get(z).getX());
 							int height = Math.abs(plates.getY()-platforms.get(i).get(z).getY());
-							if (diff < 5){
-
+//							System.out.println(height);
+							if (diff < 90){
+//								System.out.println(platforms.get(i).get(z).getX());
 								ladders.add(new Ladder(v,height,ladder_width,platforms.get(i).get(z).getX(),platforms.get(i).get(z).getY()));
 							}
 						}
@@ -208,8 +209,14 @@ public class Controller {
 			}
 		}
 
-		for (int i = 0; i < platform_end_right-platform_width;i += platform_width){//draws platform that dkong is on
+		for (int i = 0; i < SCREENWIDTH/4 ;i += platform_width){//draws platform that dkong is on
 			plates6.add(new Platform(v,platform_height,platform_width,i,dkong_initial_y+dkong_height));
+		}
+		counter = 0;
+		for (int i = SCREENWIDTH/4; i < platform_end_right-platform_width*4; i = i + platform_width){//draws incline in floor
+			plates6.add(new Platform(v,platform_height,platform_width,i,dkong_initial_y+dkong_height+counter));
+			counter += 4;
+		// start drawing for upper platforms
 		}
 		for (int i = princess_initial_x; i < platform_width*7; i += platform_width){
 			plates7.add(new Platform(v,platform_height,platform_width,i,princess_initial_y+princess_height));
@@ -286,6 +293,19 @@ public class Controller {
 			princess.wonGame();
 			g.drawString("YOU HAVE WON - 'R' to play again", 220, 280);
 		}
+		mario.settouchingLadder(false);
+		for (int i = 0; i <ladders.size(); i ++){
+			for (Barrel barrel:barrels){
+				if (ladders.get(i).isInsideHitbox(barrel.getRectangle())){
+					
+				}
+			}
+			if (ladders.get(i).isInsideHitbox(mario.getRectangle())){
+				mario.settouchingLadder(true);
+//				System.out.println(mario.touchingLadder());
+			}
+		}
+		
 		for (int i = 0; i < barrels.length; i++) {
 			//takes care of barrels and lives 
 			//System.out.println(mario.hasHammer());
@@ -338,7 +358,7 @@ public class Controller {
 		}
 
 		if (mario.get_isFalling()){
-			mario.setY((mario.getY()+2)*speed);
+			mario.setY(mario.getY()+2*speed);
 		}
 		// Check if Mario has hammer 
 		// maybe throw in method and run method??
@@ -368,10 +388,10 @@ public class Controller {
 			// if barrel is moving left
 			if (barrel.get_isFalling() == false){//only moves left and right if not falling
 			if (barrel.getDirection() == -1) {
-				barrel.setX((barrel.getX() - 1)*speed);
+				barrel.setX(barrel.getX() - 1*speed);
 			}//if moving right
 			if (barrel.getDirection() == 1) {
-				barrel.setX((barrel.getX() + 1)*speed);
+				barrel.setX(barrel.getX() + 1*speed);
 			}
 			}
 			// Try to fall
@@ -379,7 +399,7 @@ public class Controller {
 			// If barrel is touching ground for the first time - switch direction
 			// Should be - If barrel is falling and touches ground - Change direction
 			if (barrel.get_isFalling()) {
-				barrel.setY((barrel.getY() + 1)*speed);
+				barrel.setY(barrel.getY() + 1*speed);
 				//barrel.changeDirection();
 				barrel.set_isFalling(false);
 				
@@ -405,11 +425,11 @@ public class Controller {
 		}
 
 		if (this.moveLeft) {
-			mario.setX((mario.getX() - left_right_speed)*speed);
+			mario.setX(mario.getX() - left_right_speed*speed);
 		}
 		
 		if (this.moveRight) {
-			mario.setX((mario.getX() + left_right_speed)*speed);
+			mario.setX(mario.getX() + left_right_speed*speed);
 		}
 
 		if (this.moveUp) {
@@ -419,7 +439,7 @@ public class Controller {
 			}
 			else{
 
-				mario.setY((mario.getY() - 1)*speed);
+				mario.setY(mario.getY() - 1*speed);
 		
 			}
 			
@@ -433,7 +453,7 @@ public class Controller {
 		
 		if (this.moveDown) {
 			if (mario.onLadder){//mario only moves down if on a ladder for now
-				mario.setY((mario.getY() + 1)*speed);
+				mario.setY(mario.getY() + 1*speed);
 			}
 			
 			// now test if mario is on floor - If on floor go back up;
@@ -462,12 +482,12 @@ public class Controller {
 			}
 	
 			if (action.equals("left")) {
-				mario.setX((mario.getX() - left_right_speed)*speed);
+				mario.setX(mario.getX() - left_right_speed*speed);
 			}
 			
 			if (action.equals("right")) {
-				mario.setX((mario.getX() + left_right_speed)*speed);
-				
+				mario.setX(mario.getX() + left_right_speed*speed);
+
 			}
 	
 			if (action.equals("up")) {
@@ -477,7 +497,7 @@ public class Controller {
 				}
 				else{
 	
-					mario.setY((mario.getY() - 1)*speed);
+					mario.setY(mario.getY() - 1*speed);
 			
 				}
 				
@@ -491,7 +511,7 @@ public class Controller {
 			
 			if (action.equals("down")) {
 				if (mario.onLadder){//mario only moves down if on a ladder for now
-					mario.setY((mario.getY() + 1)*speed);
+					mario.setY(mario.getY() + 1*speed);
 				}
 			}
 			mario.setDirection(action);
@@ -507,14 +527,14 @@ public class Controller {
 
 			// on the way up
 			if (mario.getJump() > 0 ) {
-			mario.setY((mario.getY() - mario.getJump())*speed);
+			mario.setY(mario.getY() - mario.getJump()*speed);
 			} 
 			// on the way down
 			else {
 				
 				// if he is not on a platform he should fall
 				if (mario.getIsOnPlatform() == false) {
-				mario.setY((mario.getY() + 1)*speed);
+				mario.setY(mario.getY() + 1*speed);
 				}
 				
 			}
@@ -524,7 +544,7 @@ public class Controller {
 		else {
 
 			if (mario.getIsOnPlatform() == false) {
-			mario.setY((mario.getY() + 10)*speed);
+			mario.setY(mario.getY() + 10*speed);
 				}				
 			}
 		autoMoveActivePlayer();

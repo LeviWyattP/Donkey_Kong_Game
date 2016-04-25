@@ -146,5 +146,11 @@ public class Mario extends MyShape {
 		}
 		
 	}
+
+
+	public void settouchingLadder(boolean b) {
+		touchingLadder = b;
+		
+	}
 		
 }
