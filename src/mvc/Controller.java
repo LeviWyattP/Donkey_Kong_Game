@@ -22,7 +22,7 @@ public class Controller {
 	private DonkeyKongViewer v;
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 3000 / frameRate;//  milliseconds per frame
-	private int hammertimer = 100000; // timer for hammer
+	private int hammertimer = 200000; // timer for hammer
 	private int barreldelay = 10000; //timer inbetween barrel throws
 	private int time;
 	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
@@ -45,29 +45,29 @@ public class Controller {
 	
 	//Mario Params
 	private Mario mario;
-	private int mario_height = 40;
-	private int mario_width = 40;
+	private int mario_height = 35;
+	private int mario_width = 35;
 	private int mario_initial_x = 100;
 	private int mario_initial_y = SCREENHEIGHT-platform_height*2;
 	
 	//dkong Params
 	private DonkeyKong dkong;
-	private int dkong_height = mario_height*3;
-	private int dkong_width = mario_width*3;
+	private int dkong_height = 40*3;//mario_height*3;
+	private int dkong_width = 40*3;//mario_width*3;
 	private int dkong_initial_x = 100;
 	private int dkong_initial_y = 100;
 	
 	//Princess Params
 	private Princess princess;
-	private int princess_height = mario_height;
-	private int princess_width = mario_width;
+	private int princess_height = 35;//mario_height;
+	private int princess_width = 35;//mario_width;
 	private int princess_initial_x = 300+platform_width;
 	private int princess_initial_y = 100;	
 	
 	//Barrel Params
 	private Barrel[] barrels = new Barrel[12];
-	private int barrel_height = mario_height;
-	private int barrel_width = mario_width;
+	private int barrel_height = 30;
+	private int barrel_width = 30;
 	private int barrel_initial_x = dkong_initial_x+dkong_width;
 	private int barrel_initial_y = dkong_initial_y+dkong_height/2+20;
 	private int barrel_iter = 0;
@@ -81,15 +81,15 @@ public class Controller {
 	
 	//Hammer Params
 	private Hammer hammer;
-	private int hammer_height = mario_height;
-	private int hammer_width = mario_width;
-	private int hammer_initial_x = 200;
-	private int hammer_initial_y = 200;	
+	private int hammer_height = 40;//mario_height;
+	private int hammer_width = 40;//mario_width;
+	private int hammer_initial_x = 50;
+	private int hammer_initial_y = 500;	
 	
 	//Ladder Parrams
 	private ArrayList<Ladder> ladders = new ArrayList<Ladder>();
 //	private int ladder_height = 1;//will be modified to fit in between 2 platforms
-	private int ladder_width = mario_width;
+	private int ladder_width = 40;//mario_width;
 //	private int ladder_initial_x = 1;//will be modified
 //	private int ladder_initial_y = 1;//will be modified
 	
@@ -147,6 +147,7 @@ public class Controller {
 		
 		v.stop_background_music();
 		v.play_background_music();
+		setplay(true);
 	}
 	
 	private void ladderDrawer(DonkeyKongViewer v) {		
@@ -385,7 +386,7 @@ public class Controller {
 						if (mario.isAboveOtherObject(plate.getRectangle())) {
 							
 							mario.set_isFalling(false);
-							mario.setY(plate.getY()-platform_height-5);//bumps mario up as he walks along platforms needs work
+							mario.setY(plate.getY()-platform_height-3);//bumps mario up as he walks along platforms needs work
 							//System.out.println(mario.getY());
 							mario.setIsOnPlatform(true);
 							break; 
@@ -624,7 +625,7 @@ public class Controller {
 
 			Thread.sleep(timeDelay);
 			if (mario.hasHammer){
-			hammertimer -= 1000;
+			hammertimer -= 500;
 			}
 			
 			// if we have just thrown a barrel - reset DK
