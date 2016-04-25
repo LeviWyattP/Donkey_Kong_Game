@@ -69,7 +69,7 @@ public class Controller {
 	private int barrel_height = mario_height;
 	private int barrel_width = mario_width;
 	private int barrel_initial_x = dkong_initial_x+dkong_width;
-	private int barrel_initial_y = dkong_initial_y+dkong_height/2;
+	private int barrel_initial_y = dkong_initial_y+dkong_height/2+20;
 	private int barrel_iter = 0;
 
 	//BarrelStack Params
@@ -111,7 +111,7 @@ public class Controller {
 		score = 0;
 		setLives(3);
 		for (int i = 0; i < 12; i ++){
-			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
+			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x, barrel_initial_y);
 			barrels[i].setDirection("right");
 			barrels[i].setVisible(false);
 		}
