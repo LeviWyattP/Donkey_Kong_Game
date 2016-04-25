@@ -300,6 +300,11 @@ public class Controller {
 			}
 		}
 		
+		// we are going to test if mario is on a platform
+		// so, assume he is not until he is found to be on a platform
+		mario.setIsOnPlatform(false);
+		
+		// begin to test platforms
 		for (ArrayList<Platform> platform : platforms){//mario finds the platform he is on and makes sure he isnt falling
 				for (Platform plate : platform){
 					if(mario.isInsideHitbox(plate.getRectangle())){
@@ -308,7 +313,9 @@ public class Controller {
 						mario.setCurrentPlatform(plate);
 						mario.setY(plate.getY()-platform_height-5);//bumps mario up as he walks along platforms needs work
 						//System.out.println(mario.getY());
+						mario.setIsOnPlatform(true);
 						break;
+						
 				}	
 			}
 		}
@@ -331,6 +338,7 @@ public class Controller {
 		}
 		
 		moveBarrels();
+		moveActivePlayer();
 		
 	}
 
@@ -379,12 +387,22 @@ public class Controller {
 		}
 
 		if (action.equals("up")) {
+			
+			// handle hammer
 			if (mario.hasHammer){
 			}
 			else{
 				mario.setface(action);
 				mario.setY((mario.getY() - 1)*speed);
+		
 			}
+			
+			// Handle jumping
+			// Check if already jumping: if false, then we can jump
+			if (mario.isJumping == false && mario.isOnPlatform == true) {
+				mario.setJump(true);
+			}
+			
 		}
 		}
 		if (action.equals("down")) {
@@ -396,6 +414,7 @@ public class Controller {
 		}
 		
 		
+
 		
 		// Check if mario is on floor
 
@@ -404,6 +423,50 @@ public class Controller {
 		mario.setVisible(true);
 
 	}
+	
+	public void moveActivePlayer() {
+		
+		System.out.println(mario.isJumping);
+		// Handle Jumping
+		
+		if (mario.isJumping) {
+			System.out.println(mario.getJump());
+
+			// on the way up
+			if (mario.getJump() > 0 ) {
+			mario.setY((mario.getY() - mario.getJump())*speed);
+			} 
+			// on the way down
+			else {
+				
+				// if he is not on a platform he should fall
+				if (mario.getIsOnPlatform() == false) {
+				mario.setY((mario.getY() + 1)*speed);
+				}
+				
+			}
+			
+			mario.decrementJump(); 
+		}
+		else {
+
+			if (mario.getIsOnPlatform() == false) {
+			mario.setY((mario.getY() + 10)*speed);
+			}
+			
+				
+			}
+		
+		
+		/*
+		if (mario.isJumping) {
+				System.out.println(mario.getJump());
+				mario.setY((mario.getY() - mario.getJump())*speed);		
+				mario.decrementJump();				
+		}
+		*/
+	}
+	
 	public int getspeed(){
 		return speed;
 	}

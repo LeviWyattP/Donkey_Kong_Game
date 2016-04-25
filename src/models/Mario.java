@@ -10,7 +10,11 @@ public class Mario extends MyShape {
 	public boolean hasHammer;
 	public boolean touchingLadder;
 	public boolean onLadder;//maybe put this into myshape so barrels can use
+	public boolean isJumping;
+	public boolean isOnPlatform;
 	public int x,y;
+	public int jump;
+
 	public String action;
 	private Component component;
 	public String marioleft = "mario_left.png";
@@ -29,6 +33,8 @@ public class Mario extends MyShape {
 		this.component = c;
 		this.hasHammer = false;
 		setCurrentImage(marioright);
+		this.jump = 0;
+		
 	}
 
 
@@ -51,6 +57,34 @@ public class Mario extends MyShape {
 	public void setisDead(boolean b) {
 		setCurrentImage(mariodead);
 		this.isDead = b;
+	}
+	
+	public void setJump(boolean j) {
+		if (j == true) {
+			this.jump = 10;
+			}
+		this.isJumping = j;
+		
+	}
+	
+	public int getJump() {
+		return this.jump;
+	}
+	
+	public void decrementJump() {
+		this.jump = this.jump - 1;
+		if (this.jump == -3 ) {
+			this.isJumping = false;
+		}
+		
+	}
+	
+	public void setIsOnPlatform(boolean b) {
+		this.isOnPlatform = b;
+	}
+	
+	public boolean getIsOnPlatform() {
+		return this.isOnPlatform;
 	}
 	
 	public void setface(String action) {
