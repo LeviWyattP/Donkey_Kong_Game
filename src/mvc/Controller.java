@@ -116,30 +116,28 @@ public class Controller {
 	
 	private void ladderDrawer(DonkeyKongViewer v) {
 		ArrayList<Platform> plat = new ArrayList<Platform>();
-		for (int i = 0; i < platforms.size(); i ++){
-			//Random rand = new Random();
-			Platform randomplatform = platforms.get(i).get(platforms.get(i).size()-4);//picks a random platform for the given level
-			//Platform randomplatform2 = platforms.get(i).get(rand.nextInt(platforms.get(i).size()));//picks a random platform for the given level
-			plat.add(randomplatform);
-			//plat.add(randomplatform2);
+		for (int i = 0; i < platforms.size()-1; i ++){//7
+			plat.add(platforms.get(i).get(platforms.get(i).size()-8));
 		}
-		for (int i = 0; i < plat.size(); i ++){
-			System.out.print("this");
-			System.out.println(plat.get(i).getRectangle());
-			for (ArrayList<Platform> platform : platforms){
-				for (Platform plates : platform){
-					if (plat.get(i).getX() == plates.getX() && plat.get(i) != plates){//needs work for picking what ladders to go to
-						//System.out.println(plates.getRectangle());
-						int height = plat.get(i).getY()-plates.getY();
-						ladders.add(new Ladder(v,height,ladder_width,plat.get(i).getX(),plat.get(i).getY()));
-//						System.out.println(ladders.get(i).getRectangle());
-						
+		for (int i = 0; i < plat.size(); i ++){//7
+//			plat.get(i).setVisible(false);
+			//for (ArrayList<Platform> platform : platforms){
+			for (int r = 0; r < platforms.size(); r ++){//7
+				for (Platform plates : platforms.get(r)){
+					int height = plat.get(i).getY()-plates.getY();
+					if (height > 0 && plat.get(i) != plates){
+//						System.out.println(plat.get(i).getX()-plates.getX());
+						if (Math.abs(plat.get(i).getX()-plates.getX()) < 10){
+							Ladder l = new Ladder(v,height,ladder_width,plat.get(i).getX(),plat.get(i).getY());//best i could do for figuring out ladders for now
+							}
+						}
 					}
+				
 				}
+			
 			}
 		}
 		
-	}
 
 	public void platformDrawer(DonkeyKongViewer v){
 		int platform_end_right = SCREENWIDTH;// for end of right side of screen
@@ -227,6 +225,9 @@ public class Controller {
 		//Probably need to move something
 		playGame(g);
 
+		for (Ladder ladder : ladders){
+			ladder.draw(g);
+		}
 		// probably need to throw into a for each loop
 		for (Barrel barrel : barrels) {
 			barrel.draw(g);
@@ -236,9 +237,7 @@ public class Controller {
 				plates.draw(g);
 			}
 		}
-		for (Ladder ladder : ladders){
-			ladder.draw(g);
-		}
+		
 		
 		// Single objects
 		dkong.draw(g);
