@@ -118,6 +118,9 @@ public class Controller {
 		
 		// set time to 0 for spawning barrels
 		this.time = 0;
+		
+		//start background music
+		v.play_background_music();
 	}
 	
 	private void ladderDrawer(DonkeyKongViewer v) {
@@ -458,10 +461,11 @@ public class Controller {
 			
 			if (action.equals("right")) {
 				mario.setX((mario.getX() + left_right_speed)*speed);
+				
 			}
 	
 			if (action.equals("up")) {
-				
+				v.play_mario_jump();
 				// handle hammer
 				if (mario.hasHammer){
 				}
@@ -563,14 +567,13 @@ public class Controller {
 
 			
 			if (this.time >= this.barreldelay) {
-				
 				//spawn barrel
 				this.barrels[barrel_iter].setVisible(true);
 				this.time = 0;
 				this.barrel_iter = this.barrel_iter + 1;
 						
 				//make sure barrel_iter doesn't get too big
-				if (this.barrel_iter > this.barrels.length) {
+				if (this.barrel_iter >= this.barrels.length) {
 					this.barrel_iter = 0;
 				}
 				
