@@ -263,6 +263,8 @@ public class Controller {
 	 * If you touch a hammer mario changes state to hasHammer
 	 */
 	private void playGame(Graphics g) {
+		
+		if (getplay()) {
 		if (getLives() == 0){
 			setplay(false);
 			g.drawString("YOU HAVE LOST - 'R' to play again", 220, 280);
@@ -346,6 +348,7 @@ public class Controller {
 		moveBarrels();
 		moveActivePlayer();
 		
+		}
 	}
 
 	private void moveBarrels() {
@@ -434,54 +437,56 @@ public class Controller {
 	 * @param action
 	 */
 	public void moveActivePlayer(String action) {
-
-		int left_right_speed;
-		if (!action.equals("none")) {
-			mario.setface(action);
-			}
-
-		if (mario.isJumping == true) {
-			 left_right_speed = 10; 		
-		}
-		else {
-			left_right_speed = 3;
-		}
-
-		if (action.equals("left")) {
-			mario.setX((mario.getX() - left_right_speed)*speed);
-		}
 		
-		if (action.equals("right")) {
-			mario.setX((mario.getX() + left_right_speed)*speed);
-		}
-
-		if (action.equals("up")) {
-			
-			// handle hammer
-			if (mario.hasHammer){
+		// if not paused
+		if (getplay()) {
+			int left_right_speed;
+			if (!action.equals("none")) {
+				mario.setface(action);
+				}
+	
+			if (mario.isJumping == true) {
+				 left_right_speed = 10; 		
 			}
-			else{
-
-				mario.setY((mario.getY() - 1)*speed);
-		
+			else {
+				left_right_speed = 3;
+			}
+	
+			if (action.equals("left")) {
+				mario.setX((mario.getX() - left_right_speed)*speed);
 			}
 			
-			// Handle jumping
-			// Check if already jumping: if false, then we can jump
-			if (mario.isJumping == false && mario.isOnPlatform == true) {
-				mario.setJump(true);
+			if (action.equals("right")) {
+				mario.setX((mario.getX() + left_right_speed)*speed);
+			}
+	
+			if (action.equals("up")) {
+				
+				// handle hammer
+				if (mario.hasHammer){
+				}
+				else{
+	
+					mario.setY((mario.getY() - 1)*speed);
+			
+				}
+				
+				// Handle jumping
+				// Check if already jumping: if false, then we can jump
+				if (mario.isJumping == false && mario.isOnPlatform == true) {
+					mario.setJump(true);
+				}
+				
 			}
 			
-		}
-		
-		if (action.equals("down")) {
-			if (mario.onLadder){//mario only moves down if on a ladder for now
-				mario.setY((mario.getY() + 1)*speed);
+			if (action.equals("down")) {
+				if (mario.onLadder){//mario only moves down if on a ladder for now
+					mario.setY((mario.getY() + 1)*speed);
+				}
 			}
+			mario.setDirection(action);
+			mario.setVisible(true);
 		}
-		mario.setDirection(action);
-		mario.setVisible(true);
-
 	}
 	
 	public void moveActivePlayer() {
@@ -529,6 +534,7 @@ public class Controller {
 	
 	public void rollFrames() {
 		try {
+
 			Thread.sleep(timeDelay);
 			if (mario.hasHammer){
 			hammertimer -= 1000;
@@ -547,9 +553,9 @@ public class Controller {
 				}
 				
 			}
-			if(getplay()){
-				v.repaint();
-			}
+
+			v.repaint();
+
 		} catch (InterruptedException e) {
 			System.out.println(e.toString());
 		}
