@@ -453,8 +453,10 @@ public class Controller {
 			
 			// Handle jumping
 			// Check if already jumping: if false, then we can jump
-			if (mario.isJumping == false && mario.isOnPlatform == true) {
-				mario.setJump(true);
+			if (!mario.get_touchingLadder()) {
+				if (mario.isJumping == false && mario.isOnPlatform == true) {
+					mario.setJump(true);
+				}
 			}
 			
 		}
@@ -501,22 +503,25 @@ public class Controller {
 	
 			if (action.equals("up")) {
 				if (!mario.get_touchingLadder()) {
+				// Handle jumping
 				v.play_mario_jump();
+				// Check if already jumping: if false, then we can jump
+				if (mario.isJumping == false && mario.isOnPlatform == true) {
+					mario.setJump(true);
+					}				
+				}
+				else {
+					mario.setY(mario.getY() - 1*speed);
 				}
 				// handle hammer
 				if (mario.hasHammer){
 				}
 				else{
-	
 					mario.setY(mario.getY() - 1*speed);
-			
+
 				}
 				
-				// Handle jumping
-				// Check if already jumping: if false, then we can jump
-				if (mario.isJumping == false && mario.isOnPlatform == true) {
-					mario.setJump(true);
-				}
+
 				
 			}
 			
@@ -582,7 +587,10 @@ public class Controller {
 			}
 			
 			// if we have just thrown a barrel - reset DK
-			if (this.time  > (this.time + timeDelay*3)  && dkong.get_currentState() == 3) {
+			System.out.println(this.time + " " + this.time + timeDelay*3 + " " + dkong.get_currentState());
+			System.out.println();
+			System.out.println();
+			if (this.time  > (timeDelay*5)  && dkong.get_currentState() == 3) {
 				dkong.resetCurrentState();
 			}
 			
