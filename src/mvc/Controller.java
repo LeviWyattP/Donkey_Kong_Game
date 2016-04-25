@@ -125,7 +125,6 @@ public class Controller {
 	private void ladderDrawer(DonkeyKongViewer v) {		
 		for (int i = 0; i < platforms.size(); i ++){//iterate through level
 			for (int r = 0; r < platforms.get(i).size(); r ++){//iterate through platforms for given level i
-				if (r == 2){//changes location of ladders
 					if(i == 7){
 						int z = 2;//changes location on top platform, must be < 4
 						for (Platform plates:platforms.get(i-1)){
@@ -139,6 +138,7 @@ public class Controller {
 						}
 					}
 					else{
+						if (r == 3){
 						for (Platform plates:platforms.get(i+1)){
 							int diff = Math.abs(plates.getX()-platforms.get(i).get(r).getX());
 							int height = Math.abs(plates.getY()-platforms.get(i).get(r).getY());
@@ -146,16 +146,16 @@ public class Controller {
 								ladders.add(new Ladder(v,height,ladder_width,platforms.get(i).get(r).getX(),platforms.get(i).get(r).getY()-height));
 							}
 						}
+						}
 					}
 				}
 			}
 		}
 			
-	}
+	
 		
 
 	public void platformDrawer(DonkeyKongViewer v){
-		int platform_end_right = SCREENWIDTH;// for end of right side of screen
 		ArrayList<Platform> plates = new ArrayList<Platform>();
 		ArrayList<Platform> plates1 = new ArrayList<Platform>();
 		ArrayList<Platform> plates2 = new ArrayList<Platform>();
@@ -168,7 +168,7 @@ public class Controller {
 			plates.add(new Platform(v,platform_height,platform_width,platform_initial_x+i,platform_initial_y));
 		}
 		int counter = 0;
-		for (int i = SCREENWIDTH/2; i < platform_end_right-platform_width; i = i + platform_width){//draws incline in floor
+		for (int i = SCREENWIDTH/2; i < SCREENWIDTH-platform_width; i = i + platform_width){//draws incline in floor
 			plates.add(new Platform(v,platform_height,platform_width,platform_initial_x+i,platform_initial_y-counter));
 			counter += 2;
 		// start drawing for upper platforms
@@ -176,33 +176,33 @@ public class Controller {
 		for (int r = 0; r < 5; r ++){
 			
 			if(r % 2 == 0){
-				counter += 100;
-				for (int i = platform_end_right-platform_width*2; i > 0; i = i - platform_width){//draws odd floors
+				counter += 140;
+				for (int i = SCREENWIDTH-platform_width; i > platform_width*2; i = i - platform_width){//draws odd floors
 					if (r == 0){
 						plates1.add(new Platform(v,platform_height,platform_width,i,platform_initial_y-counter));
-						counter += 2;
+						counter -= 2;
 					}
 					if (r == 2){
 						plates3.add(new Platform(v,platform_height,platform_width,i,platform_initial_y-counter));
-						counter += 2;
+						counter -= 2;
 					}
 					if (r == 4){
 						plates5.add(new Platform(v,platform_height,platform_width,i,platform_initial_y-counter));
-						counter += 2;
+						counter -= 2;
 					}
 				}
 				
 			}
 			else{
-				counter += 100;
-				for (int i = platform_width; i < platform_end_right-platform_width; i = i + platform_width){//draws even floors
+				counter += 150;
+				for (int i = 0; i < SCREENWIDTH-platform_width*3; i = i + platform_width){//draws even floors
 					if (r == 1){
 						plates2.add(new Platform(v,platform_height,platform_width,i,platform_initial_y-counter));
-						counter += 2;
+						counter -= 2;
 					}
 					if (r == 3){
 						plates4.add(new Platform(v,platform_height,platform_width,i,platform_initial_y-counter));
-						counter += 2;
+						counter -= 2;
 					}
 				}
 			}
@@ -212,7 +212,7 @@ public class Controller {
 			plates6.add(new Platform(v,platform_height,platform_width,i,dkong_initial_y+dkong_height));
 		}
 		counter = 0;
-		for (int i = SCREENWIDTH/4; i < platform_end_right-platform_width*4; i = i + platform_width){//draws incline in floor
+		for (int i = SCREENWIDTH/4; i < SCREENWIDTH-platform_width*4; i = i + platform_width){//draws incline in floor
 			plates6.add(new Platform(v,platform_height,platform_width,i,dkong_initial_y+dkong_height+counter));
 			counter += 4;
 		// start drawing for upper platforms
@@ -494,6 +494,7 @@ public class Controller {
 			}
 			
 			if (action.equals("right")) {
+
 				mario.setX(mario.getX() + left_right_speed*speed);
 
 			}
