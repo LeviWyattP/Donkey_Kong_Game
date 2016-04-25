@@ -87,10 +87,14 @@ public class DonkeyKongViewer extends JFrame {
 		// TODO Auto-generated method stub
 		this.mario_jump.play();
 	}
+
 	public void play_background_music() {
-		//final Clip clip = AudioSystem.getClip();
-		//clip.open((AudioInputStream) this.background_music);
-		//clip.loop(Clip.LOOP_CONTINUOUSLY);
 		this.background_music.loop();
 	}
+
+	public void stop_background_music() {
+		this.background_music.stop();
+	}
+
+
 }

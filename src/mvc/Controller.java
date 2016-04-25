@@ -122,6 +122,33 @@ public class Controller {
 		v.play_background_music();
 	}
 	
+	private void restart_game() {
+		platformDrawer(v);
+		ladderDrawer(v);
+		current_platform = platforms.get(0).get(3);
+		mario = new Mario(v, mario_height, mario_width, mario_initial_x, platforms.get(0).get(2).getY()-platform_height*2);
+		princess = new Princess(v, princess_height, princess_width, princess_initial_x, princess_initial_y);
+		hammer = new Hammer(v, hammer_height, hammer_width, hammer_initial_x, hammer_initial_y);
+		dkong = new DonkeyKong(v, dkong_height, dkong_width, dkong_initial_x, dkong_initial_y);
+		//level = new Level(v,level_height,level_width,level_initial_x,level_initial_y);
+		barrelstack = new BarrelStack(v,barrelstack_height,barrelstack_width,barrelstack_initial_x,barrelstack_initial_y);
+		score = 0;
+		setLives(3);
+		for (int i = 0; i < 12; i ++){
+			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x, barrel_initial_y);
+			barrels[i].setDirection("right");
+			barrels[i].setVisible(false);
+		}
+		
+		// set time to 0 for spawning barrels
+		this.time = 0;
+		
+		//start background music
+		
+		v.stop_background_music();
+		v.play_background_music();
+	}
+	
 	private void ladderDrawer(DonkeyKongViewer v) {		
 		for (int i = 0; i < platforms.size(); i ++){//iterate through level
 			for (int r = 0; r < platforms.get(i).size(); r ++){//iterate through platforms for given level i
@@ -239,7 +266,7 @@ public class Controller {
 	}
 
 	void playAgain() {
-		
+		restart_game();
 	}
 	
 	public void paintModels(Graphics g) {
