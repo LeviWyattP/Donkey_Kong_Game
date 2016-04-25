@@ -539,7 +539,29 @@ public class Controller {
 			if (mario.hasHammer){
 			hammertimer -= 1000;
 			}
+			
+			// if we have just thrown a barrel - reset DK
+			if (this.time  > (this.time + timeDelay*3)  && dkong.get_currentState() == 3) {
+				dkong.resetCurrentState();
+			}
+			
 			this.time = this.time + timeDelay;
+
+			//Donkey Kong Should Grab a barrel after a certain time
+			if (this.time >= this.barreldelay/3) {
+				if (dkong.get_currentState() < 1) {
+					dkong.increment_currentState();
+				}
+			}
+			
+			//Hold Barrel Above his head
+			if (this.time >= this.barreldelay/2.5) {
+				if (dkong.get_currentState() < 2) {
+					dkong.increment_currentState();
+				}
+			}
+
+			
 			if (this.time >= this.barreldelay) {
 				
 				//spawn barrel
@@ -551,6 +573,9 @@ public class Controller {
 				if (this.barrel_iter > this.barrels.length) {
 					this.barrel_iter = 0;
 				}
+				
+				// Show Donkey kong giving barrel
+				dkong.increment_currentState();
 				
 			}
 
