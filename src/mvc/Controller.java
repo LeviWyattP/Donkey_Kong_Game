@@ -27,7 +27,7 @@ public class Controller {
 	private int time;
 	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
 	private int cell = SCREENWIDTH / 12; // 12 columns
-	private int speed = 2;//anything more than 1 makes game explode
+	private int speed = 1;//anything more than 1 makes game explode
 	private int x, y;// direction = -1;
 	private int size = 30; // character size
 	private boolean moveLeft, moveRight, moveUp, moveDown;
@@ -102,7 +102,6 @@ public class Controller {
 		ladderDrawer(v);
 		current_platform = platforms.get(0).get(3);
 		mario = new Mario(v, mario_height, mario_width, mario_initial_x, platforms.get(0).get(2).getY()-platform_height*2);
-		mario.setCurrentPlatform(platforms.get(0).get(3));
 		princess = new Princess(v, princess_height, princess_width, princess_initial_x, princess_initial_y);
 		hammer = new Hammer(v, hammer_height, hammer_width, hammer_initial_x, hammer_initial_y);
 		dkong = new DonkeyKong(v, dkong_height, dkong_width, dkong_initial_x, dkong_initial_y);
@@ -314,7 +313,6 @@ public class Controller {
 				for (Platform plate : platform){
 					if(barrels[i].isInsideHitbox(plate.getRectangle())){
 						barrels[i].set_isFalling(false);
-						barrels[i].setCurrentPlatform(plate);
 						break;
 					}	
 				}
@@ -345,13 +343,23 @@ public class Controller {
 		for (ArrayList<Platform> platform : platforms){//mario finds the platform he is on and makes sure he isnt falling
 				for (Platform plate : platform){
 					if(mario.isInsideHitbox(plate.getRectangle())){
-						//System.out.println("here");
-						mario.set_isFalling(false);
-						mario.setCurrentPlatform(plate);
-						mario.setY(plate.getY()-platform_height-5);//bumps mario up as he walks along platforms needs work
-						//System.out.println(mario.getY());
-						mario.setIsOnPlatform(true);
-						break;
+
+						// We need to figure out if he is above or below a platform
+						if (mario.isAboveOtherObject(plate.getRectangle())) {
+							
+							mario.set_isFalling(false);
+							mario.setY(plate.getY()-platform_height-5);//bumps mario up as he walks along platforms needs work
+							//System.out.println(mario.getY());
+							mario.setIsOnPlatform(true);
+							break; 
+						}
+						else {
+							if (!mario.get_touchingLadder()) {
+							mario.setY(plate.getY()+25);//bumps mario up as he walks along platforms needs work
+							mario.setIsOnPlatform(false);
+							}
+						}
+						
 						
 				}	
 			}
@@ -491,7 +499,9 @@ public class Controller {
 			}
 	
 			if (action.equals("up")) {
+				if (!mario.get_touchingLadder()) {
 				v.play_mario_jump();
+				}
 				// handle hammer
 				if (mario.hasHammer){
 				}
@@ -533,7 +543,7 @@ public class Controller {
 			else {
 				
 				// if he is not on a platform he should fall
-				if (mario.getIsOnPlatform() == false) {
+				if (mario.getIsOnPlatform() == false && !mario.get_touchingLadder()) {
 				mario.setY(mario.getY() + 1*speed);
 				}
 				
@@ -543,7 +553,7 @@ public class Controller {
 		}
 		else {
 
-			if (mario.getIsOnPlatform() == false) {
+			if (mario.getIsOnPlatform() == false && !mario.get_touchingLadder()) {
 			mario.setY(mario.getY() + 10*speed);
 				}				
 			}

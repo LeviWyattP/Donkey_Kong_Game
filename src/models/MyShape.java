@@ -49,13 +49,6 @@ public class MyShape {
 			return this.currentImage;
 	}
 	
-	public Platform getCurrentPlatform(){
-		return current_platform;
-	}
-	
-	public void setCurrentPlatform(Platform p){
-		current_platform = p;
-	}
 
 	/**
 	 * Change image
@@ -200,7 +193,14 @@ public class MyShape {
 		} else {
 			return false;
 		}
-		
+	}
+	
+	public boolean isAboveOtherObject(Rectangle other_rectangle) {
+		if (r.getCenterY() < other_rectangle.getCenterY()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

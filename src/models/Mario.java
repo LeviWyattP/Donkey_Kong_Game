@@ -149,8 +149,10 @@ public class Mario extends MyShape {
 
 
 	public void settouchingLadder(boolean b) {
-		touchingLadder = b;
-		
+		this.touchingLadder = b;
+	}
+	public boolean get_touchingLadder() {
+		return this.touchingLadder;
 	}
 		
 }
