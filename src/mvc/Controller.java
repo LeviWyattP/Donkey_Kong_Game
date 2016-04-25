@@ -307,16 +307,26 @@ public class Controller {
 		
 		for (int i = 0; i < barrels.length; i++) {
 			//takes care of barrels and lives 
-			//System.out.println(mario.hasHammer());
 			barrels[i].set_isFalling(true);
 			for (ArrayList<Platform> platform : platforms){//mario finds the platform he is on and makes sure he isnt falling
 				for (Platform plate : platform){
 					if(barrels[i].isInsideHitbox(plate.getRectangle())){
 						barrels[i].set_isFalling(false);
 						break;
-					}	
+					}
 				}
 			}
+			
+
+			if (!barrels[i].get_isFalling()  && barrels[i].get_y_speed() > 7) {
+				barrels[i].changeDirection();
+			}
+			
+			if (!barrels[i].get_isFalling()) {
+				barrels[i].set_y_speed(0);
+			}
+			
+			
 			if (mario.hasHammer())
 				barrels[i].breakState(true);
 			else {
@@ -394,6 +404,7 @@ public class Controller {
 			if (barrel.getVisible()) {
 
 			// if barrel is moving left
+			//System.out.println(barrel.get_isFalling());
 			if (barrel.get_isFalling() == false){//only moves left and right if not falling
 			if (barrel.getDirection() == -1) {
 				barrel.setX(barrel.getX() - 1*speed);
@@ -407,7 +418,10 @@ public class Controller {
 			// If barrel is touching ground for the first time - switch direction
 			// Should be - If barrel is falling and touches ground - Change direction
 			if (barrel.get_isFalling()) {
-				barrel.setY(barrel.getY() + 1*speed);
+				barrel.setY(barrel.getY() + 1*speed + barrel.get_y_speed());
+				barrel.increment_y_speed();
+				
+				// increase speed 
 				//barrel.changeDirection();
 				barrel.set_isFalling(false);
 				
@@ -587,9 +601,6 @@ public class Controller {
 			}
 			
 			// if we have just thrown a barrel - reset DK
-			System.out.println(this.time + " " + this.time + timeDelay*3 + " " + dkong.get_currentState());
-			System.out.println();
-			System.out.println();
 			if (this.time  > (timeDelay*5)  && dkong.get_currentState() == 3) {
 				dkong.resetCurrentState();
 			}
