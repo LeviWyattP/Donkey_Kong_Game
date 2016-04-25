@@ -17,15 +17,16 @@ public class MyShape {
 	protected final int RIGHT = 1, LEFT = -1;
 	protected int upDown;
 	protected final int UP = -1, DOWN = 1;
-	protected boolean isFalling = false;
+	protected boolean isFalling = true;
 	protected boolean debug = true;
 	protected Rectangle r;
 	protected Component c;
 	protected String currentImageLocation;
 	protected ImageIcon currentImage;
+	protected Platform current_platform;//keeps track of the platform an object is on
 	
 	public MyShape(Component c, int height, int width, int x, int y) {
-		this.r = new Rectangle(x, y, height, width);
+		this.r = new Rectangle(x, y, width,height);//height and width had to be changed to match the actual objects
 		setX(x);
 		setY(y);
 		this.width = width;
@@ -48,6 +49,13 @@ public class MyShape {
 			return this.currentImage;
 	}
 	
+	public Platform getCurrentPlatform(){
+		return current_platform;
+	}
+	
+	public void setCurrentPlatform(Platform p){
+		current_platform = p;
+	}
 
 	/**
 	 * Change image
@@ -154,6 +162,9 @@ public class MyShape {
 	 */
 	public void set_isFalling(boolean isFalling) {
 		this.isFalling = isFalling;
+//		if (isFalling == true){
+//			changeDirection();
+//		}
 	}
 	/**
 	 * isFalling accessor

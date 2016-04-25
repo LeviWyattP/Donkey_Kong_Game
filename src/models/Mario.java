@@ -9,7 +9,7 @@ import mvc.Controller;
 public class Mario extends MyShape {
 	public boolean hasHammer;
 	public boolean touchingLadder;
-	public boolean onLadder;
+	public boolean onLadder;//maybe put this into myshape so barrels can use
 	public int x,y;
 	public String action;
 	private Component component;
@@ -52,8 +52,7 @@ public class Mario extends MyShape {
 		setCurrentImage(mariodead);
 		this.isDead = b;
 	}
-
-
+	
 	public void setface(String action) {
 		// TODO Auto-generated method stub
 		if (action.equals("left")){
@@ -86,5 +85,4 @@ public class Mario extends MyShape {
 			}
 		}
 	}
-	
 }

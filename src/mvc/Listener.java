@@ -25,7 +25,7 @@ public class Listener implements KeyListener {
 		case KeyEvent.VK_C:
 			c.playAgain();
 			break;
-		//pauses the game, but fails to unpause game
+		//pauses the game, but fails to unpause game NEEDS FIXING
 //		case KeyEvent.VK_P:
 //			if (c.getplay()){//if game is not paused, pause
 //				c.setplay(false);
