@@ -16,6 +16,7 @@ public class Listener implements KeyListener {
 	}
 	//this should be good for handling single presses for mario
 	public void keyPressed(KeyEvent event) {
+
 		switch (event.getKeyCode()) {
 		case KeyEvent.VK_R:
 			if (c.getLives() == 0){
@@ -35,17 +36,25 @@ public class Listener implements KeyListener {
 //			}
 //			break;
 		case KeyEvent.VK_LEFT:
+			c.setMoveLeft(true);
 			c.moveActivePlayer("left");
 			break;
 		case KeyEvent.VK_RIGHT:
+			c.setMoveRight(true);
 			c.moveActivePlayer("right");
 			break;
 		case KeyEvent.VK_UP:
+			c.setMoveUp(true);
 			c.moveActivePlayer("up");
 			break;
 		case KeyEvent.VK_DOWN:
+			c.setMoveDown(true);
 			c.moveActivePlayer("down");
 			break;
+		default:
+			c.moveActivePlayer("none");
+			break;
+			
 		}
 	}
 	// need to work finish this up 
@@ -61,7 +70,7 @@ public class Listener implements KeyListener {
 			c.setMoveUp(false);
 			break;
 		case KeyEvent.VK_DOWN:
-			c.setMoveDown(false);
+
 			break;
 		}
 	}

@@ -30,4 +30,5 @@ public class Barrel extends MyShape {
 		this.am_i_dead = b;
 		
 	}
+	
 }

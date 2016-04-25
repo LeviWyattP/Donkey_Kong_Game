@@ -23,7 +23,8 @@ public class Controller {
 	private int frameRate = 72; // frames per second
 	private int timeDelay = 3000 / frameRate;//  milliseconds per frame
 	private int hammertimer = 70000; // timer for hammer
-	private int barreldelay = 4000; //timer inbetween barrel throws
+	private int barreldelay = 10000; //timer inbetween barrel throws
+	private int time;
 	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
 	private int cell = SCREENWIDTH / 12; // 12 columns
 	private int speed = 1;//anything more than 1 makes game explode
@@ -68,7 +69,8 @@ public class Controller {
 	private int barrel_height = mario_height;
 	private int barrel_width = mario_width;
 	private int barrel_initial_x = 25;
-	private int barrel_initial_y = 25;	
+	private int barrel_initial_y = 25;
+	private int barrel_iter = 0;
 
 	//BarrelStack Params
 	private BarrelStack barrelstack;
@@ -111,7 +113,11 @@ public class Controller {
 		for (int i = 0; i < 12; i ++){
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
 			barrels[i].setDirection("right");
+			barrels[i].setVisible(false);
 		}
+		
+		// set time to 0 for spawning barrels
+		this.time = 0;
 	}
 	
 	private void ladderDrawer(DonkeyKongViewer v) {
@@ -344,6 +350,8 @@ public class Controller {
 
 	private void moveBarrels() {
 		for (Barrel barrel : barrels) {
+			
+			if (barrel.getVisible()) {
 
 			// if barrel is moving left
 			if (barrel.get_isFalling() == false){//only moves left and right if not falling
@@ -364,35 +372,40 @@ public class Controller {
 				barrel.set_isFalling(false);
 				
 			}
-			
+			}
 
 			
 			
 		}
 	}
 	
-	public void moveActivePlayer(String action) {
-		// First we need to make Mario invisible until we want him redrawn
-		mario.setVisible(false);
-		//System.out.println(mario.get_isFalling());
-		if (mario.get_isFalling() == false){
-		if (action.equals("left")) {
-			mario.setface(action);
-			mario.setX((mario.getX() - 3)*speed);
+	/**
+	 * Moves Player based on pressed keys
+	 */
+	public void autoMoveActivePlayer() {
+		int left_right_speed;
+		if (mario.isJumping == true) {
+			 left_right_speed = 10; 		
 		}
-		
-		if (action.equals("right")) {
-			mario.setface(action);
-			mario.setX((mario.getX() + 3)*speed);
+		else {
+			left_right_speed = 3;
 		}
 
-		if (action.equals("up")) {
+		if (this.moveLeft) {
+			mario.setX((mario.getX() - left_right_speed)*speed);
+		}
+		
+		if (this.moveRight) {
+			mario.setX((mario.getX() + left_right_speed)*speed);
+		}
+
+		if (this.moveUp) {
 			
 			// handle hammer
 			if (mario.hasHammer){
 			}
 			else{
-				mario.setface(action);
+
 				mario.setY((mario.getY() - 1)*speed);
 		
 			}
@@ -404,21 +417,68 @@ public class Controller {
 			}
 			
 		}
-		}
-		if (action.equals("down")) {
+		
+		if (this.moveDown) {
 			if (mario.onLadder){//mario only moves down if on a ladder for now
 				mario.setY((mario.getY() + 1)*speed);
 			}
 			
 			// now test if mario is on floor - If on floor go back up;
 		}
-		
-		
+	}
+	
+	/**
+	 * This runs when the listener detects a pressed key.
+	 * @param action
+	 */
+	public void moveActivePlayer(String action) {
 
+		int left_right_speed;
+		if (!action.equals("none")) {
+			mario.setface(action);
+			}
+
+		if (mario.isJumping == true) {
+			 left_right_speed = 10; 		
+		}
+		else {
+			left_right_speed = 3;
+		}
 		
-		// Check if mario is on floor
+		//System.out.println(mario.get_isFalling());
 
+		if (action.equals("left")) {
+			mario.setX((mario.getX() - left_right_speed)*speed);
+		}
+		
+		if (action.equals("right")) {
+			mario.setX((mario.getX() + left_right_speed)*speed);
+		}
 
+		if (action.equals("up")) {
+			
+			// handle hammer
+			if (mario.hasHammer){
+			}
+			else{
+
+				mario.setY((mario.getY() - 1)*speed);
+		
+			}
+			
+			// Handle jumping
+			// Check if already jumping: if false, then we can jump
+			if (mario.isJumping == false && mario.isOnPlatform == true) {
+				mario.setJump(true);
+			}
+			
+		}
+		
+		if (action.equals("down")) {
+			if (mario.onLadder){//mario only moves down if on a ladder for now
+				mario.setY((mario.getY() + 1)*speed);
+			}
+		}
 		mario.setDirection(action);
 		mario.setVisible(true);
 
@@ -452,6 +512,8 @@ public class Controller {
 			mario.setY((mario.getY() + 10)*speed);
 				}				
 			}
+		
+		autoMoveActivePlayer();
 
 	}
 	
@@ -464,11 +526,27 @@ public class Controller {
 	public void setScore(int s) {
 		score = s;
 	}
+	
+	
 	public void rollFrames() {
 		try {
 			Thread.sleep(timeDelay);
 			if (mario.hasHammer){
 			hammertimer -= 1000;
+			}
+			this.time = this.time + timeDelay;
+			if (this.time > this.barreldelay) {
+				
+				//spawn barrel
+				this.barrels[barrel_iter].setVisible(true);
+				this.time = 0;
+				this.barrel_iter = this.barrel_iter + 1;
+						
+				//make sure barrel_iter doesn't get too big
+				if (this.barrel_iter > this.barrels.length) {
+					this.barrel_iter = 0;
+				}
+				
 			}
 			if(getplay()){
 				v.repaint();
@@ -479,20 +557,17 @@ public class Controller {
 		
 	}
 	public void setMoveLeft(boolean b) {
-		// TODO Auto-generated method stub
+		this.moveLeft = b;
 		
 	}
 	public void setMoveRight(boolean b) {
-		// TODO Auto-generated method stub
-		
+		this.moveRight = b;
 	}
 	public void setMoveUp(boolean b) {
-		// TODO Auto-generated method stub
-		
+		this.moveUp = b;
 	}
 	public void setMoveDown(boolean b) {
-		// TODO Auto-generated method stub
-		
+		this.moveDown = b;
 	}
 	public boolean getplay() {
 		// returns game status
@@ -503,5 +578,8 @@ public class Controller {
 		getplay = b;
 	}
 	
-
+	public void spawnBarrels() {
+		
+	}
+	
 }
