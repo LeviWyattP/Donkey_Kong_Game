@@ -21,7 +21,7 @@ public class Controller {
 	private boolean getplay = true;
 	private DonkeyKongViewer v;
 	private int frameRate = 72; // frames per second
-	private int timeDelay = 5000 / frameRate;//  milliseconds per frame
+	private int timeDelay = 3000 / frameRate;//  milliseconds per frame
 	private int hammertimer = 70000; // timer for hammer
 	private int barreldelay = 4000; //timer inbetween barrel throws
 	public final int SCREENWIDTH = 1000, SCREENHEIGHT = 1000;
@@ -378,12 +378,12 @@ public class Controller {
 		if (mario.get_isFalling() == false){
 		if (action.equals("left")) {
 			mario.setface(action);
-			mario.setX((mario.getX() - 1)*speed);
+			mario.setX((mario.getX() - 3)*speed);
 		}
 		
 		if (action.equals("right")) {
 			mario.setface(action);
-			mario.setX((mario.getX() + 1)*speed);
+			mario.setX((mario.getX() + 3)*speed);
 		}
 
 		if (action.equals("up")) {
@@ -426,11 +426,9 @@ public class Controller {
 	
 	public void moveActivePlayer() {
 		
-		System.out.println(mario.isJumping);
 		// Handle Jumping
-		
 		if (mario.isJumping) {
-			System.out.println(mario.getJump());
+
 
 			// on the way up
 			if (mario.getJump() > 0 ) {
@@ -452,19 +450,9 @@ public class Controller {
 
 			if (mario.getIsOnPlatform() == false) {
 			mario.setY((mario.getY() + 10)*speed);
+				}				
 			}
-			
-				
-			}
-		
-		
-		/*
-		if (mario.isJumping) {
-				System.out.println(mario.getJump());
-				mario.setY((mario.getY() - mario.getJump())*speed);		
-				mario.decrementJump();				
-		}
-		*/
+
 	}
 	
 	public int getspeed(){
