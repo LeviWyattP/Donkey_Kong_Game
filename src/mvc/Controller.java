@@ -68,8 +68,8 @@ public class Controller {
 	private Barrel[] barrels = new Barrel[12];
 	private int barrel_height = mario_height;
 	private int barrel_width = mario_width;
-	private int barrel_initial_x = 25;
-	private int barrel_initial_y = 25;
+	private int barrel_initial_x = dkong_initial_x+dkong_width;
+	private int barrel_initial_y = dkong_initial_y+dkong_height/2+20;
 	private int barrel_iter = 0;
 
 	//BarrelStack Params
@@ -111,7 +111,7 @@ public class Controller {
 		score = 0;
 		setLives(3);
 		for (int i = 0; i < 12; i ++){
-			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x+i*10, barrel_initial_y + i*i);
+			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x, barrel_initial_y);
 			barrels[i].setDirection("right");
 			barrels[i].setVisible(false);
 		}
@@ -123,29 +123,35 @@ public class Controller {
 		v.play_background_music();
 	}
 	
-	private void ladderDrawer(DonkeyKongViewer v) {
-		ArrayList<Platform> plat = new ArrayList<Platform>();
-		for (int i = 0; i < platforms.size()-1; i ++){//7
-			plat.add(platforms.get(i).get(platforms.get(i).size()-8));
-		}
-		for (int i = 0; i < plat.size(); i ++){//7
-//			plat.get(i).setVisible(false);
-			//for (ArrayList<Platform> platform : platforms){
-			for (int r = 0; r < platforms.size(); r ++){//7
-				for (Platform plates : platforms.get(r)){
-					int height = plat.get(i).getY()-plates.getY();
-					if (height > 0 && plat.get(i) != plates){
-//						System.out.println(plat.get(i).getX()-plates.getX());
-						if (Math.abs(plat.get(i).getX()-plates.getX()) < 10){
-							Ladder l = new Ladder(v,height,ladder_width,plat.get(i).getX(),plat.get(i).getY());//best i could do for figuring out ladders for now
+	private void ladderDrawer(DonkeyKongViewer v) {		
+		for (int i = 0; i < platforms.size(); i ++){//iterate through level
+			for (int r = 0; r < platforms.get(i).size(); r ++){//iterate through platforms for given level i
+				if (r == 2){//changes location of ladders
+					if(i == 7){
+						int z = 2;//changes location on top platform, must be < 4
+						for (Platform plates:platforms.get(i-1)){
+							int diff = Math.abs(plates.getX()-platforms.get(i).get(z).getX());
+							int height = Math.abs(plates.getY()-platforms.get(i).get(z).getY());
+							if (diff < 5){
+
+								ladders.add(new Ladder(v,height,ladder_width,platforms.get(i).get(z).getX(),platforms.get(i).get(z).getY()));
 							}
 						}
 					}
-				
+					else{
+						for (Platform plates:platforms.get(i+1)){
+							int diff = Math.abs(plates.getX()-platforms.get(i).get(r).getX());
+							int height = Math.abs(plates.getY()-platforms.get(i).get(r).getY());
+							if (diff < 5){
+								ladders.add(new Ladder(v,height,ladder_width,platforms.get(i).get(r).getX(),platforms.get(i).get(r).getY()-height));
+							}
+						}
+					}
 				}
-			
 			}
 		}
+			
+	}
 		
 
 	public void platformDrawer(DonkeyKongViewer v){
