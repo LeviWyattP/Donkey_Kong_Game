@@ -1,6 +1,7 @@
 package mvc;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,9 +14,11 @@ import models.DonkeyKong;
 import models.Hammer;
 import models.Ladder;
 import models.Level;
+import models.Lives;
 import models.Mario;
 import models.Platform;
 import models.Princess;
+import models.Score;
 
 public class Controller {
 	private boolean getplay = true;
@@ -94,7 +97,17 @@ public class Controller {
 //	private int ladder_initial_y = 1;//will be modified
 	
 	
+	private Lives livesKeeper;
+	private int livesKeeper_height = 30;
+	private int livesKeeper_width = 30;
+	private int livesKeeper_initial_x = SCREENWIDTH - 100;
+	private int livesKeeper_initial_y = 100;
 	
+	private Score scoreKeeper;
+	private int scoreKeeper_height = 30;
+	private int scoreKeeper_width = 200;
+	private int scoreKeeper_initial_x = SCREENWIDTH - 300;
+	private int scoreKeeper_initial_y = 100;
 
 	public Controller(DonkeyKongViewer v) {
 		this.v = v;
@@ -107,8 +120,12 @@ public class Controller {
 		dkong = new DonkeyKong(v, dkong_height, dkong_width, dkong_initial_x, dkong_initial_y);
 		//level = new Level(v,level_height,level_width,level_initial_x,level_initial_y);
 		barrelstack = new BarrelStack(v,barrelstack_height,barrelstack_width,barrelstack_initial_x,barrelstack_initial_y);
+		livesKeeper = new Lives(v,livesKeeper_height,livesKeeper_width,livesKeeper_initial_x,livesKeeper_initial_y);
+		scoreKeeper = new Score(v,scoreKeeper_height,scoreKeeper_width,scoreKeeper_initial_x,scoreKeeper_initial_y);
 		score = 0;
+		scoreKeeper.setScore(getScore());
 		setLives(3);
+		livesKeeper.setLife(getLives());
 		for (int i = 0; i < 12; i ++){
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x, barrel_initial_y);
 			barrels[i].setDirection("right");
@@ -123,8 +140,11 @@ public class Controller {
 	}
 	
 	private void restart_game() {
+		hammertimer = 200000;
 		platformDrawer(v);
 		ladderDrawer(v);
+		livesKeeper = new Lives(v,livesKeeper_height,livesKeeper_width,livesKeeper_initial_x,livesKeeper_initial_y);
+		scoreKeeper = new Score(v,scoreKeeper_height,scoreKeeper_width,scoreKeeper_initial_x,scoreKeeper_initial_y);
 		current_platform = platforms.get(0).get(3);
 		mario = new Mario(v, mario_height, mario_width, mario_initial_x, platforms.get(0).get(2).getY()-platform_height*2);
 		princess = new Princess(v, princess_height, princess_width, princess_initial_x, princess_initial_y);
@@ -133,7 +153,10 @@ public class Controller {
 		//level = new Level(v,level_height,level_width,level_initial_x,level_initial_y);
 		barrelstack = new BarrelStack(v,barrelstack_height,barrelstack_width,barrelstack_initial_x,barrelstack_initial_y);
 		score = 0;
-		setLives(3);
+		scoreKeeper.setScore(getScore());
+		if(getLives() == 0)setLives(3);
+//		else setLives(getLives()-1);
+		livesKeeper.setLife(getLives());
 		for (int i = 0; i < 12; i ++){
 			barrels[i] = new Barrel(v, barrel_height, barrel_width, barrel_initial_x, barrel_initial_y);
 			barrels[i].setDirection("right");
@@ -149,7 +172,7 @@ public class Controller {
 		v.play_background_music();
 		setplay(true);
 	}
-	
+
 	private void ladderDrawer(DonkeyKongViewer v) {		
 		for (int i = 0; i < platforms.size(); i ++){//iterate through level
 			for (int r = 0; r < platforms.get(i).size(); r ++){//iterate through platforms for given level i
@@ -295,6 +318,8 @@ public class Controller {
 		princess.draw(g);
 		hammer.draw(g);
 		mario.draw(g);
+		livesKeeper.draw(g);
+		scoreKeeper.draw(g);
 		
 		
 		
@@ -306,13 +331,15 @@ public class Controller {
 	 * If you touch a hammer mario changes state to hasHammer
 	 */
 	private void playGame(Graphics g) {
-		
+		//hammertimer = 200000;
 		if (getplay()) {
 		if (getLives() == 0){
 			setplay(false);
 			g.drawString("YOU HAVE LOST - 'R' to play again", 220, 280);
 			setLives(3);
+			livesKeeper.setLife(getLives());
 			setScore(0);
+			scoreKeeper.setScore(getScore());
 		}
 		if (mario.isInsideHitbox(princess.getRectangle())){
 			setplay(false);
@@ -363,11 +390,13 @@ public class Controller {
 			if (mario.isInsideHitbox(barrels[i].getRectangle()) && barrels[i].getVisible()) {
 				if (mario.hasHammer()) {
 					barrels[i].setVisible(false);
-					score += 500;
+					score += 100;
+					scoreKeeper.setScore(getScore());
 				} 
 				else { 
 					mario.setisDead(true);
 					setLives(getLives() - 1);
+					livesKeeper.setLife(getLives());
 					playAgain();
 				}
 			}
@@ -413,6 +442,7 @@ public class Controller {
 			//System.out.println(mario.hasHammer());
 			mario.setHammer(true);
 			setScore(getScore()+100);
+			scoreKeeper.setScore(getScore());
 			hammer.setVisible(false);
 			
 		}//sets mario back to normal state after timer is over
